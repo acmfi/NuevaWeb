@@ -1,0 +1,11 @@
+@(title: String)(sigs: Seq[Sig] = Seq.empty[Sig])
+
+@main(title) {
+  <div class="container">
+  <div class="card-panel">
+  @for((s,i) <- sigs.view.zipWithIndex) {
+    <a href="sigs/@s.id">@s.name</a><br>
+  }
+  </div>
+  </div>
+}
