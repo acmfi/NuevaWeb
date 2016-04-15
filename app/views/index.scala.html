@@ -1,7 +1,15 @@
-@(message: String)
+@(title: String)(news: Seq[News] = Seq.empty[News])
 
-@main("Welcome to Play") {
-
-@play20.welcome(message)
-
+@main(title){
+  <div class="container">
+  <ul class="collapsible popout" data-collapsible="accordion">
+    @for((n,i) <- news.view.zipWithIndex) {
+      <li class="white">
+      <div class="center blue white-text collapsible-header@(if(i==0) " active" else "")">
+      <!-- <i class="material-icons">forum</i> --> <span>@n.title</span>
+      </div>
+        <div class="collapsible-body"><p>@n.content</p>TODO: Format timestamp (@n.date)</div>
+      </li>
+    }
+  </ul></div>
 }
