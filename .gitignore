@@ -1,10 +1,11 @@
-logs
-target
-/.idea
-/.idea_modules
-/.classpath
-/.project
-/.settings
-/RUNNING_PID
-/.ensime
-/.ensime_cache
+#logs
+#target
+#/.idea
+#/.idea_modules
+#/.classpath
+#/.project
+#/.settings
+#/RUNNING_PID
+#/.ensime
+#/.ensime_cache
+# Cambiarlo por ELM lang cuando se conozca mejor la arquitecura y no llenar el repo de mierda

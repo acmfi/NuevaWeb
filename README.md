@@ -2,16 +2,17 @@
 
 ## Development
 
-### Integration
+You can also watch a preview loading the exported code in html in any browser.
+This is a ported code from the .elm to .html.
 
-- Emacs
-  Use ensime: [http://ensime.org/editors/emacs/](http://ensime.org/editors/emacs/)
-- Others
-  Use Google
+### Installation
+
+- Installation guide:
+  `https://guide.elm-lang.org/install.html`
 
 ### Commands
 
 - Run:
-  `./activator run`
-- Distribute:
-  `./activator distribute`
+  `elm-refractor `
+
+

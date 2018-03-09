@@ -1,0 +1,84 @@
+var _elm_lang$page_visibility$PageVisibility$onVisibilityChange = _elm_lang$page_visibility$Native_PageVisibility.visibilityChange;
+var _elm_lang$page_visibility$PageVisibility$onEffects = F3(
+	function (router, newSubs, state) {
+		var _p0 = {ctor: '_Tuple2', _0: state, _1: newSubs};
+		if (_p0._0.ctor === 'Nothing') {
+			if (_p0._1.ctor === '[]') {
+				return _elm_lang$core$Task$succeed(state);
+			} else {
+				return A2(
+					_elm_lang$core$Task$andThen,
+					function (pid) {
+						return _elm_lang$core$Task$succeed(
+							_elm_lang$core$Maybe$Just(
+								{subs: newSubs, pid: pid}));
+					},
+					_elm_lang$core$Process$spawn(
+						_elm_lang$page_visibility$PageVisibility$onVisibilityChange(
+							_elm_lang$core$Platform$sendToSelf(router))));
+			}
+		} else {
+			if (_p0._1.ctor === '[]') {
+				return A2(
+					_elm_lang$core$Task$andThen,
+					function (_p1) {
+						return _elm_lang$core$Task$succeed(_elm_lang$core$Maybe$Nothing);
+					},
+					_elm_lang$core$Process$kill(_p0._0._0.pid));
+			} else {
+				return _elm_lang$core$Task$succeed(
+					_elm_lang$core$Maybe$Just(
+						{subs: newSubs, pid: _p0._0._0.pid}));
+			}
+		}
+	});
+var _elm_lang$page_visibility$PageVisibility$init = _elm_lang$core$Task$succeed(_elm_lang$core$Maybe$Nothing);
+var _elm_lang$page_visibility$PageVisibility$isHidden = _elm_lang$page_visibility$Native_PageVisibility.isHidden;
+var _elm_lang$page_visibility$PageVisibility$isVisible = A2(_elm_lang$core$Task$map, _elm_lang$core$Basics$not, _elm_lang$page_visibility$PageVisibility$isHidden);
+var _elm_lang$page_visibility$PageVisibility$subscription = _elm_lang$core$Native_Platform.leaf('PageVisibility');
+var _elm_lang$page_visibility$PageVisibility$Hidden = {ctor: 'Hidden'};
+var _elm_lang$page_visibility$PageVisibility$Visible = {ctor: 'Visible'};
+var _elm_lang$page_visibility$PageVisibility$hiddenToVisibility = function (hidden) {
+	return hidden ? _elm_lang$page_visibility$PageVisibility$Hidden : _elm_lang$page_visibility$PageVisibility$Visible;
+};
+var _elm_lang$page_visibility$PageVisibility$visibility = A2(_elm_lang$core$Task$map, _elm_lang$page_visibility$PageVisibility$hiddenToVisibility, _elm_lang$page_visibility$PageVisibility$isHidden);
+var _elm_lang$page_visibility$PageVisibility$onSelfMsg = F3(
+	function (router, hidden, state) {
+		var _p2 = state;
+		if (_p2.ctor === 'Nothing') {
+			return _elm_lang$core$Task$succeed(state);
+		} else {
+			var send = function (_p3) {
+				var _p4 = _p3;
+				return A2(
+					_elm_lang$core$Platform$sendToApp,
+					router,
+					_p4._0(
+						_elm_lang$page_visibility$PageVisibility$hiddenToVisibility(hidden)));
+			};
+			return A2(
+				_elm_lang$core$Task$andThen,
+				function (_p5) {
+					return _elm_lang$core$Task$succeed(state);
+				},
+				_elm_lang$core$Task$sequence(
+					A2(_elm_lang$core$List$map, send, _p2._0.subs)));
+		}
+	});
+var _elm_lang$page_visibility$PageVisibility$Tagger = function (a) {
+	return {ctor: 'Tagger', _0: a};
+};
+var _elm_lang$page_visibility$PageVisibility$visibilityChanges = function (tagger) {
+	return _elm_lang$page_visibility$PageVisibility$subscription(
+		_elm_lang$page_visibility$PageVisibility$Tagger(tagger));
+};
+var _elm_lang$page_visibility$PageVisibility$subMap = F2(
+	function (func, _p6) {
+		var _p7 = _p6;
+		return _elm_lang$page_visibility$PageVisibility$Tagger(
+			function (_p8) {
+				return func(
+					_p7._0(_p8));
+			});
+	});
+_elm_lang$core$Native_Platform.effectManagers['PageVisibility'] = {pkg: 'elm-lang/page-visibility', init: _elm_lang$page_visibility$PageVisibility$init, onEffects: _elm_lang$page_visibility$PageVisibility$onEffects, onSelfMsg: _elm_lang$page_visibility$PageVisibility$onSelfMsg, tag: 'sub', subMap: _elm_lang$page_visibility$PageVisibility$subMap};
